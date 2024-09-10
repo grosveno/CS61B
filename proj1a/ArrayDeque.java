@@ -40,8 +40,8 @@ public class ArrayDeque<T> {
         int first = getFirst(), last = getLast();
         if (first > last) {
             System.arraycopy(arr, 0, a, 0, last + 1);
-            System.arraycopy(arr, first, a, n - (size - first), size - first);
-            nextFirst = n - (size - first) - 1;
+            System.arraycopy(arr, first, a, n - (capacity - first), capacity - first);
+            nextFirst = n - (capacity - first) - 1;
         } else {
             System.arraycopy(arr, first, a, n / 4, size);
             nextFirst = n / 4 - 1;
@@ -133,6 +133,8 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
+        int first = getFirst();
+        index = (first + index) % capacity;
         return arr[index];
     }
 }
