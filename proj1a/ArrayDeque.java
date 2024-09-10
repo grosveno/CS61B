@@ -47,9 +47,6 @@ public class ArrayDeque<T> {
             nextFirst = n / 4 - 1;
             nextLast = nextFirst + size + 1;
         }
-        for (T elem : arr) {
-            elem = null;
-        }
         arr = a;
         capacity = n;
     }
@@ -107,29 +104,37 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        int first = getFirst();
-        T firstElement = arr[first];
-        arr[first] = null;
-        size -= 1;
-        nextFirst = first;
-        usage = (float) size / capacity;
-        if (size >= 16 && usage < 0.25) {
-            resize(capacity / 2);
+        if (size == 0) {
+            return null;
+        } else {
+            int first = getFirst();
+            T firstElement = arr[first];
+            arr[first] = null;
+            size -= 1;
+            nextFirst = first;
+            usage = (float) size / capacity;
+            if (size >= 16 && usage < 0.25) {
+                resize(capacity / 2);
+            }
+            return firstElement;
         }
-        return firstElement;
     }
 
     public T removeLast() {
-        int last = getLast();
-        T lastElement = arr[last];
-        arr[last] = null;
-        size -= 1;
-        nextLast = last;
-        usage = (float) size / capacity;
-        if (size >= 16 && usage < 0.25) {
-            resize(capacity / 2);
+        if (size == 0) {
+            return null;
+        } else {
+            int last = getLast();
+            T lastElement = arr[last];
+            arr[last] = null;
+            size -= 1;
+            nextLast = last;
+            usage = (float) size / capacity;
+            if (size >= 16 && usage < 0.25) {
+                resize(capacity / 2);
+            }
+            return lastElement;
         }
-        return lastElement;
     }
 
     public T get(int index) {
