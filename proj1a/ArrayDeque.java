@@ -47,6 +47,9 @@ public class ArrayDeque<T> {
             nextFirst = n / 4 - 1;
             nextLast = nextFirst + size + 1;
         }
+        for (T elem : arr) {
+            elem = null;
+        }
         arr = a;
         capacity = n;
     }
