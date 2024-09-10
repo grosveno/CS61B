@@ -15,7 +15,7 @@ public class ArrayDeque<T> {
         nextLast = 4;
     }
 
-    public int getFirst() {
+    private int getFirst() {
         int first;
         if (nextFirst == capacity - 1) {
             first = 0;
@@ -25,7 +25,7 @@ public class ArrayDeque<T> {
         return first;
     }
 
-    public int getLast() {
+    private int getLast() {
         int last;
         if (nextLast == 0) {
             last = capacity - 1;
@@ -35,7 +35,7 @@ public class ArrayDeque<T> {
         return last;
     }
 
-    public void resize(int n) {
+    private void resize(int n) {
         T[] a = (T[]) new Object[n];
         int first = getFirst(), last = getLast();
         if (first > last) {
@@ -71,7 +71,7 @@ public class ArrayDeque<T> {
         }
         arr[nextLast] = item;
         if (nextLast == capacity - 1) {
-           nextLast = 0;
+            nextLast = 0;
         } else {
             nextLast += 1;
         }
@@ -105,7 +105,7 @@ public class ArrayDeque<T> {
 
     public T removeFirst() {
         int first = getFirst();
-        T first_elem = arr[first];
+        T firstElement = arr[first];
         arr[first] = null;
         size -= 1;
         nextFirst = first;
@@ -113,12 +113,12 @@ public class ArrayDeque<T> {
         if (size >= 16 && usage < 0.25) {
             resize(capacity / 2);
         }
-        return first_elem;
+        return firstElement;
     }
 
     public T removeLast() {
         int last = getLast();
-        T last_elem = arr[last];
+        T lastElement = arr[last];
         arr[last] = null;
         size -= 1;
         nextLast = last;
@@ -126,7 +126,7 @@ public class ArrayDeque<T> {
         if (size >= 16 && usage < 0.25) {
             resize(capacity / 2);
         }
-        return last_elem;
+        return lastElement;
     }
 
     public T get(int index) {
