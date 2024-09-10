@@ -20,7 +20,7 @@ public class ArrayDeque<T> {
         if (nextFirst == capacity - 1) {
             first = 0;
         } else {
-            first = nextFirst - 1;
+            first = nextFirst + 1;
         }
         return first;
     }
@@ -30,7 +30,7 @@ public class ArrayDeque<T> {
         if (nextLast == 0) {
             last = capacity - 1;
         } else {
-            last = nextLast + 1;
+            last = nextLast - 1;
         }
         return last;
     }
