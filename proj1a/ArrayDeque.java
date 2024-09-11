@@ -100,6 +100,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
+        if (size >= 16 && capacity / size > 4) {
+            resize(capacity / 2);
+        }
         if (size == 0) {
             return null;
         } else {
@@ -108,14 +111,14 @@ public class ArrayDeque<T> {
             arr[first] = null;
             size -= 1;
             nextFirst = first;
-            if (size >= 16 && capacity / size > 4) {
-                resize(capacity / 2);
-            }
             return firstElement;
         }
     }
 
     public T removeLast() {
+        if (size >= 16 && capacity / size > 4) {
+            resize(capacity / 2);
+        }
         if (size == 0) {
             return null;
         } else {
@@ -124,9 +127,6 @@ public class ArrayDeque<T> {
             arr[last] = null;
             size -= 1;
             nextLast = last;
-            if (size >= 16 && capacity / size > 4) {
-                resize(capacity / 2);
-            }
             return lastElement;
         }
     }
