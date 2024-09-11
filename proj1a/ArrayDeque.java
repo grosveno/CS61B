@@ -100,7 +100,7 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        if (size >= 16 && capacity / size > 4) {
+        if (size >= 16 && (float) capacity / size > 2.5) {
             resize(capacity / 2);
         }
         if (size == 0) {
@@ -116,7 +116,7 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast() {
-        if (size >= 16 && capacity / size > 4) {
+        if (size >= 16 && (float) capacity / size > 2.5) {
             resize(capacity / 2);
         }
         if (size == 0) {
