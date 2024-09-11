@@ -4,13 +4,11 @@ public class ArrayDeque<T> {
     private int nextLast;
     private int size;
     private int capacity;
-    private float usage;
 
     public ArrayDeque() {
         arr = (T[]) new Object[8];
         size = 0;
         capacity = 8;
-        usage = 0;
         nextFirst = 3;
         nextLast = 4;
     }
@@ -62,7 +60,6 @@ public class ArrayDeque<T> {
             nextFirst -= 1;
         }
         size += 1;
-        usage = (float) size / capacity;
     }
 
     public void addLast(T item) {
@@ -76,7 +73,6 @@ public class ArrayDeque<T> {
             nextLast += 1;
         }
         size += 1;
-        usage = (float) size / capacity;
     }
 
     public boolean isEmpty() {
@@ -112,8 +108,7 @@ public class ArrayDeque<T> {
             arr[first] = null;
             size -= 1;
             nextFirst = first;
-            usage = (float) size / capacity;
-            if (size >= 16 && usage < 0.25) {
+            if (size >= 16 && capacity / size > 4) {
                 resize(capacity / 2);
             }
             return firstElement;
@@ -129,8 +124,7 @@ public class ArrayDeque<T> {
             arr[last] = null;
             size -= 1;
             nextLast = last;
-            usage = (float) size / capacity;
-            if (size >= 16 && usage < 0.25) {
+            if (size >= 16 && capacity / size > 4) {
                 resize(capacity / 2);
             }
             return lastElement;
