@@ -6,9 +6,13 @@ import edu.princeton.cs.algs4.StdStats;
 public class PercolationStats {
     private int times;
     private double[] threshold;
+    private final double coefficient = 1.96;
 
     /** perform T independent experiments on an N-by-N grid */
     public PercolationStats(int N, int T, PercolationFactory pf) {
+        if (N <= 0 || T <= 0) {
+            throw new java.lang.IllegalArgumentException();
+        }
         threshold = new double[N];
         times = T;
         for (int i = 0; i < times; i++) {
@@ -17,14 +21,14 @@ public class PercolationStats {
                 int random = StdRandom.uniform(N * N);
                 int row = random / N;
                 int col = random % N;
-                while (module.isOpen(row, col)) {
+                while (module.isOpen(row, col) && module.numberOfOpenSites() < N * N) {
                     random = StdRandom.uniform(N * N);
                     row = random / N;
                     col = random % N;
                 }
                 module.open(row, col);
             }
-            threshold[i] = module.numberOfOpenSites();
+            threshold[i] = (double) module.numberOfOpenSites() / (N * N);
         }
     }
 
@@ -40,11 +44,11 @@ public class PercolationStats {
 
     /** low endpoint of 95% confidence interval */
     public double confidenceLow() {
-        return mean() - 1.96 * stddev() / Math.sqrt(times);
+        return mean() - coefficient * stddev() / Math.sqrt(times);
     }
 
     /** high endpoint of 95% confidence interval */
     public double confidenceHigh() {
-        return mean() + 1.96 * stddev() / Math.sqrt(times);
+        return mean() + coefficient * stddev() / Math.sqrt(times);
     }
 }
