@@ -27,11 +27,11 @@ public class Percolation {
             }
         }
         for (int i = 0; i < N; i++) {
-            site.union(topSite, computePoint(N - 1, i));
-            siteWithoutButton.union(topSite, computePoint(N - 1, i));
+            site.union(topSite, computePoint(0, i));
+            siteWithoutButton.union(topSite, computePoint(0, i));
         }
         for (int i = 0; i < N; i++) {
-            site.union(buttonSite, computePoint(0, i));
+            site.union(buttonSite, computePoint(N - 1, i));
         }
     }
 
