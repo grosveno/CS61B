@@ -44,8 +44,8 @@ public class Percolation {
         }
     }
     private boolean isInGrid(int row, int col) {
-        return row >= 0 && row < N &&
-                col >= 0 && col < N;
+        return row >= 0 && row < N
+               && col >= 0 && col < N;
     }
 
     private int computePoint(int row, int col) {
@@ -102,10 +102,10 @@ public class Percolation {
     public static void main(String[] args) {
         Percolation p = new Percolation(4);
         p.open(0, 0);
-        p.open(1,0);
-        p.open(2,0);
-        p.open(2,1);
-        p.open(3,1);
+        p.open(1, 0);
+        p.open(2, 0);
+        p.open(2, 1);
+        p.open(3, 1);
         p.open(2, 3);
         System.out.println(p.isFull(1, 3));
         System.out.println(p.percolates());
