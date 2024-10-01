@@ -14,6 +14,9 @@ public class Percolation {
 
     /** create N-by-N grid, with all sites initially blocked */
     public Percolation(int N) {
+        if (N <= 0) {
+            throw new IllegalArgumentException();
+        }
         this.N = N;
         numOfOpen = 0;
         topSite = N * N;
@@ -36,11 +39,8 @@ public class Percolation {
     }
 
     private void throwException(int row, int col) {
-        if (row >= N || col >= N) {
+        if (row >= N || col >= N || row < 0 || col < 0) {
             throw new java.lang.IndexOutOfBoundsException();
-        }
-        if (row < 0 || col < 0) {
-            throw new java.lang.IllegalArgumentException();
         }
     }
     private boolean isInGrid(int row, int col) {
@@ -97,6 +97,9 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
+        if (numberOfOpenSites() == 0) {
+            return false;
+        }
         return site.connected(topSite, buttonSite);
     }
 
