@@ -86,7 +86,8 @@ public class Percolation {
     /** is the site (row, col) full? */
     public boolean isFull(int row, int col) {
         throwException(row, col);
-        return siteWithoutButton.connected(topSite, computePoint(row, col));
+        return siteWithoutButton.connected(topSite, computePoint(row, col))
+                && grid[row][col];
     }
 
     // number of open sites
