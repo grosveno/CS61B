@@ -71,8 +71,10 @@ public class Percolation {
         // throw exception
         throwException(row, col);
         // set ture
-        grid[row][col] = true;
-        numOfOpen += 1;
+        if (!grid[row][col]) {
+            grid[row][col] = true;
+            numOfOpen += 1;
+        }
         // connect neighbour point which is true
         connectAllNeighbour(row, col);
     }
@@ -105,7 +107,11 @@ public class Percolation {
 
     public static void main(String[] args) {
         Percolation p = new Percolation(4);
+        System.out.println(p.isFull(0, 0));
         p.open(0, 0);
+        System.out.println(p.isFull(0,  0));
+        p.open(0, 0);
+        System.out.println(p.numOfOpen);
         p.open(1, 0);
         p.open(2, 0);
         p.open(2, 1);
