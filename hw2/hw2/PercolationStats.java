@@ -13,7 +13,7 @@ public class PercolationStats {
         if (N <= 0 || T <= 0) {
             throw new java.lang.IllegalArgumentException();
         }
-        threshold = new double[N];
+        threshold = new double[T];
         times = T;
         for (int i = 0; i < times; i++) {
             Percolation module = pf.make(N);
@@ -50,5 +50,10 @@ public class PercolationStats {
     /** high endpoint of 95% confidence interval */
     public double confidenceHigh() {
         return mean() + coefficient * stddev() / Math.sqrt(times);
+    }
+
+    public static void main(String[] args) {
+        PercolationStats test = new PercolationStats(100, 50, new PercolationFactory());
+        System.out.println(test.mean());
     }
 }
