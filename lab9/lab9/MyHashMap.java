@@ -1,5 +1,6 @@
 package lab9;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -62,9 +63,9 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         for (int i = 0; i < buckets.length; i++) {
             buckets[i] = new ArrayMap<>();
         }
-        for (int i = 0; i < temp.length; i++) {
-            for (K key : temp[i].keySet()) {
-                buckets[hash(key)].put(key, temp[i].get(key));
+        for (ArrayMap<K, V> ks : temp) {
+            for (K key : ks.keySet()) {
+                buckets[hash(key)].put(key, ks.get(key));
             }
         }
     }
@@ -92,7 +93,11 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     /* Returns a Set view of the keys contained in this map. */
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+        Set<K> keySet = new HashSet<>();
+        for (ArrayMap<K, V> bucket : buckets) {
+            keySet.addAll(bucket.keySet());
+        }
+        return keySet;
     }
 
     /* Removes the mapping for the specified key from this map if exists.
@@ -100,7 +105,10 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * UnsupportedOperationException. */
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        if (buckets[hash(key)].get(key) != null) {
+            size -= 1;
+        }
+        return buckets[hash(key)].remove(key);
     }
 
     /* Removes the entry for the specified key only if it is currently mapped to
@@ -108,11 +116,14 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * throw an UnsupportedOperationException.*/
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        if (buckets[hash(key)].get(key) == value) {
+            size -= 1;
+        }
+        return buckets[hash(key)].remove(key, value);
     }
 
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        return keySet().iterator();
     }
 }
