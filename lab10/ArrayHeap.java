@@ -104,16 +104,12 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
 
-        while (index > 1) {
-            int parentIndex = parentIndex(index);
-            Node parentNode = getNode(parentIndex);
-            Node selfNode = getNode(index);
-            if (parentNode.myPriority > selfNode.myPriority) {
-                swap(index, parentIndex);
-            } else {
-                break;
-            }
+        int parentIndex = parentIndex(index);
+        while (inBounds(parentIndex)
+                && getNode(parentIndex).myPriority > getNode(index).myPriority) {
+            swap(parentIndex, index);
             index = parentIndex;
+            parentIndex = parentIndex(index);
         }
     }
 
@@ -124,16 +120,12 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
 
-        while (index * 2 < size + 1) {
-            int minIndex = min(leftIndex(index), rightIndex(index));
-            Node minNode = getNode(minIndex);
-            Node selfNode = getNode(index);
-            if (minNode.myPriority < selfNode.myPriority) {
-                swap(index, minIndex);
-            } else {
-                break;
-            }
+        int minIndex = min(leftIndex(index), rightIndex(index));
+        while (inBounds(minIndex)
+                && getNode(minIndex).myPriority < getNode(index).myPriority) {
+            swap(index, minIndex);
             index = minIndex;
+            minIndex = min(leftIndex(index), rightIndex(index));
         }
     }
 
