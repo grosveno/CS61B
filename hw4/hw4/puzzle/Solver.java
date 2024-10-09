@@ -17,15 +17,25 @@ public class Solver {
 
         @Override
         public int compareTo(SearchNode o) {
-            return moveSteps + word.estimatedDistanceToGoal()
-                    - o.moveSteps - o.word.estimatedDistanceToGoal();
+            if (!cache.containsKey(word)) {
+                cache.put(word, word.estimatedDistanceToGoal());
+            }
+            if (!cache.containsKey(o.word)) {
+                cache.put(o.word, o.word.estimatedDistanceToGoal());
+            }
+            int estimatedOfSelf = cache.get(word);
+            int estimatedOfO = cache.get(o.word);
+            return moveSteps + estimatedOfSelf
+                    - o.moveSteps - estimatedOfO;
         }
     }
 
     private List<WorldState> moveSequence;
     private int moveSteps;
+    private Map<WorldState, Integer> cache;
 
     public Solver(WorldState initial) {
+        cache = new HashMap<>();
         MinPQ<SearchNode> moveSequences = new MinPQ<>();
         SearchNode currentNode = new SearchNode(initial, 0, null);
         while (!currentNode.word.isGoal()) {
