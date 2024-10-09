@@ -54,7 +54,7 @@ public class Solver {
         moveSequence = new ArrayList<>();
         moveSequence.add(initial);
         while (currentNode.preNode != null) {
-            moveSequence.add(0, currentNode.word);
+            moveSequence.add(1, currentNode.word);
             currentNode = currentNode.preNode;
         }
     }
