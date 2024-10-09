@@ -28,15 +28,14 @@ public class Solver {
     public Solver(WorldState initial) {
         MinPQ<SearchNode> moveSequences = new MinPQ<>();
         SearchNode currentNode = new SearchNode(initial, 0, null);
-        moveSequences.insert(currentNode);
         while (!currentNode.word.isGoal()) {
-            currentNode = moveSequences.delMin();
             for (WorldState child : currentNode.word.neighbors()) {
                 SearchNode childNode = new SearchNode(child, currentNode.moveSteps + 1, currentNode);
                 if (currentNode.preNode == null || !child.equals(currentNode.preNode.word)) {
                     moveSequences.insert(childNode);
                 }
             }
+            currentNode = moveSequences.delMin(); // 如果有了直接返回。
         }
 
         moveSteps = 0;
