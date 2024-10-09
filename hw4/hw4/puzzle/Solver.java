@@ -33,8 +33,7 @@ public class Solver {
         }
     }
 
-    private final List<WorldState> moveSequence;
-    private int moveSteps;
+    private List<WorldState> moveSequence;
     private final Map<WorldState, Integer> cache;
 
     public Solver(WorldState initial) {
@@ -52,17 +51,16 @@ public class Solver {
             currentNode = moveSequences.delMin(); // 如果有了直接返回。
         }
 
-        moveSteps = 0;
         moveSequence = new ArrayList<>();
+        moveSequence.add(initial);
         while (currentNode.preNode != null) {
             moveSequence.add(0, currentNode.word);
             currentNode = currentNode.preNode;
-            moveSteps += 1;
         }
     }
 
     public int moves() {
-        return moveSteps;
+        return moveSequence.size() - 1;
     }
 
     public Iterable<WorldState> solution() {
