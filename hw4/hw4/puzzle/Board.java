@@ -95,11 +95,20 @@ public class Board implements WorldState {
         return cnt;
     }
 
+    @Override
     public boolean equals(Object y) {
+        if (y == null) {
+            return false;
+        }
         if (y.getClass() != this.getClass()) {
             return false;
         }
         return Arrays.deepEquals(tiles, ((Board) y).tiles);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
     /** Returns the string representation of the board. 

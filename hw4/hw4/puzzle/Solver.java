@@ -2,10 +2,13 @@ package hw4.puzzle;
 
 import edu.princeton.cs.algs4.MinPQ;
 
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Solver {
-    public class SearchNode implements Comparable<SearchNode> {
+    private class SearchNode implements Comparable<SearchNode> {
         private final WorldState word;
         private final int moveSteps;
         private final SearchNode preNode;
@@ -40,7 +43,8 @@ public class Solver {
         SearchNode currentNode = new SearchNode(initial, 0, null);
         while (!currentNode.word.isGoal()) {
             for (WorldState child : currentNode.word.neighbors()) {
-                SearchNode childNode = new SearchNode(child, currentNode.moveSteps + 1, currentNode);
+                int moveStep = currentNode.moveSteps + 1;
+                SearchNode childNode = new SearchNode(child, moveStep, currentNode);
                 if (currentNode.preNode == null || !child.equals(currentNode.preNode.word)) {
                     moveSequences.insert(childNode);
                 }
