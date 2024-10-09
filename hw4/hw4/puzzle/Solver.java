@@ -6,9 +6,9 @@ import java.util.*;
 
 public class Solver {
     public class SearchNode implements Comparable<SearchNode> {
-        private WorldState word;
-        private int moveSteps;
-        private SearchNode preNode;
+        private final WorldState word;
+        private final int moveSteps;
+        private final SearchNode preNode;
         public SearchNode(WorldState a, int b, SearchNode c) {
             word = a;
             moveSteps = b;
@@ -30,9 +30,9 @@ public class Solver {
         }
     }
 
-    private List<WorldState> moveSequence;
+    private final List<WorldState> moveSequence;
     private int moveSteps;
-    private Map<WorldState, Integer> cache;
+    private final Map<WorldState, Integer> cache;
 
     public Solver(WorldState initial) {
         cache = new HashMap<>();
