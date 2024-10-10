@@ -1,5 +1,7 @@
 package lab11.graphs;
 
+import edu.princeton.cs.algs4.MinPQ;
+
 /**
  *  @author Josh Hug
  */
@@ -18,9 +20,24 @@ public class MazeAStarPath extends MazeExplorer {
         edgeTo[s] = s;
     }
 
+    private class State implements Comparable<State> {
+        int value;
+        int estimatedToGoal;
+
+        private State(int v) {
+            value = v;
+            estimatedToGoal = h(v);
+        }
+
+        @Override
+        public int compareTo(State o) {
+            return estimatedToGoal + value - o.value - o.estimatedToGoal;
+        }
+    }
+
     /** Estimate of the distance from v to the target. */
     private int h(int v) {
-        return -1;
+        return Math.abs(maze.toX(v) - maze.toX(t)) + Math.abs(maze.toY(v) - maze.toY(t));
     }
 
     /** Finds vertex estimated to be closest to target. */
@@ -31,7 +48,22 @@ public class MazeAStarPath extends MazeExplorer {
 
     /** Performs an A star search from vertex s. */
     private void astar(int s) {
-        // TODO
+        MinPQ<State> queue = new MinPQ<>();
+        State current = new State(s);
+        marked[s] = true;
+        announce();
+        while (current.value != t) {
+            for (int i : maze.adj(current.value)) {
+                State neighbour = new State(i);
+                if (!marked[i]) {
+                    queue.insert(neighbour);
+                    edgeTo[i] = current.value;
+                    announce();
+                }
+            }
+            current = queue.delMin();
+            marked[current.value] = true;
+        }
     }
 
     @Override
