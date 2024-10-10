@@ -47,9 +47,10 @@ public class MazeCycles extends MazeExplorer {
 
     private void drawCycle(int s, int t) {
         int current = s;
+        edgeTo[current] = parent[current];
         while (current != t) {
-            edgeTo[current] = parent[current];
             current = parent[current];
+            edgeTo[current] = parent[current];
         }
     }
 }
