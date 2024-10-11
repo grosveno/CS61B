@@ -12,45 +12,31 @@ public class MazeCycles extends MazeExplorer {
     public boolean[] marked;
     */
 
-    private int[] parent;
-    private boolean cycleFound;
+    private boolean cycleFound = false;
 
     public MazeCycles(Maze m) {
         super(m);
-        parent = new int[maze.V()];
     }
 
     @Override
     public void solve() {
         dfs(0);
-        announce();
     }
 
-    private void dfs(int current) {
-        marked[current] = true;
+    private void dfs(int cur) {
         if (cycleFound) {
             return;
         }
-        for (int neighbour : maze.adj(current)) {
-            if (marked[neighbour] && neighbour != parent[current]) {
-                parent[neighbour] = current;
+        marked[cur] = true;
+        announce();
+        for (int adj : maze.adj(cur)) {
+            if (!marked[adj]) {
+                edgeTo[adj] = cur;
+                dfs(adj);
+            } else if (edgeTo[cur] != adj) {
                 cycleFound = true;
-                drawCycle(current, neighbour);
                 return;
             }
-            if (!marked[neighbour]) {
-                parent[neighbour] = current;
-                dfs(neighbour);
-            }
-        }
-    }
-
-    private void drawCycle(int s, int t) {
-        int current = s;
-        edgeTo[current] = parent[current];
-        while (current != t) {
-            current = parent[current];
-            edgeTo[current] = parent[current];
         }
     }
 }
