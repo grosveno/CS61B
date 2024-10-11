@@ -4,11 +4,9 @@ import edu.princeton.cs.algs4.MinPQ;
 
 /**
  *  @author Josh Hug
- */
-public class MazeAStarPath extends MazeExplorer {
+ */public class MazeAStarPath extends MazeExplorer {
     private int s;
     private int t;
-    private boolean targetFound = false;
     private Maze maze;
 
     public MazeAStarPath(Maze m, int sourceX, int sourceY, int targetX, int targetY) {
@@ -20,18 +18,18 @@ public class MazeAStarPath extends MazeExplorer {
         edgeTo[s] = s;
     }
 
-    private class State implements Comparable<State> {
+    private class Node implements Comparable<Node> {
         int value;
-        int estimatedToGoal;
+        int priority;
 
-        private State(int v) {
+        private Node(int v, int dis) {
             value = v;
-            estimatedToGoal = h(v);
+            priority = h(v) + dis;
         }
 
         @Override
-        public int compareTo(State o) {
-            return estimatedToGoal + value - o.value - o.estimatedToGoal;
+        public int compareTo(Node o) {
+            return priority - o.priority;
         }
     }
 
@@ -48,21 +46,26 @@ public class MazeAStarPath extends MazeExplorer {
 
     /** Performs an A star search from vertex s. */
     private void astar(int s) {
-        MinPQ<State> queue = new MinPQ<>();
-        State current = new State(s);
-        marked[s] = true;
-        announce();
-        while (current.value != t) {
-            for (int i : maze.adj(current.value)) {
-                State neighbour = new State(i);
-                if (!marked[i]) {
-                    queue.insert(neighbour);
-                    edgeTo[i] = current.value;
-                    announce();
+        MinPQ<Node> qu = new MinPQ<>();
+        Node cur = new Node(s, distTo[s]);
+        qu.insert(cur);
+        while (!qu.isEmpty()) {
+            cur = qu.delMin();
+            if (marked[cur.value]) {
+                continue;
+            }
+            marked[cur.value] = true;
+            announce();
+            if (cur.value == t) {
+                return;
+            }
+            for (int adj : maze.adj(cur.value)) {
+                if (!marked[adj] && distTo[cur.value] + 1 < distTo[adj]) {
+                    distTo[adj] = distTo[cur.value] + 1;
+                    edgeTo[adj] = cur.value;
+                    qu.insert(new Node(adj, distTo[adj]));
                 }
             }
-            current = queue.delMin();
-            marked[current.value] = true;
         }
     }
 
@@ -72,4 +75,3 @@ public class MazeAStarPath extends MazeExplorer {
     }
 
 }
-
