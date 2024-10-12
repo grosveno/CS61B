@@ -34,8 +34,13 @@ public class MergeSort {
     /** Returns a queue of queues that each contain one item from items. */
     private static <Item extends Comparable> Queue<Queue<Item>>
             makeSingleItemQueues(Queue<Item> items) {
-        // Your code here!
-        return null;
+        Queue<Queue<Item>> queues = new Queue<>();
+        for (Item item : items) {
+            Queue<Item> singleQueue = new Queue<>();
+            singleQueue.enqueue(item);
+            queues.enqueue(singleQueue);
+        }
+        return queues;
     }
 
     /**
@@ -53,14 +58,38 @@ public class MergeSort {
      */
     private static <Item extends Comparable> Queue<Item> mergeSortedQueues(
             Queue<Item> q1, Queue<Item> q2) {
-        // Your code here!
-        return null;
+        Queue<Item> q = new Queue<>();
+        while (!(q1.isEmpty() && q2.isEmpty())) {
+            q.enqueue(getMin(q1, q2));
+        }
+        return q;
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
-        // Your code here!
-        return items;
+        Queue<Queue<Item>> queues = makeSingleItemQueues(items);
+        while (!(queues.size() == 1)) {
+            Queue<Queue<Item>> newQueues = new Queue<>();
+            while (!queues.isEmpty()) {
+                Queue<Item> leftPart = queues.dequeue();
+                Queue<Item> rightPart = new Queue<>();
+                if (!queues.isEmpty()) {
+                    rightPart = queues.dequeue();
+                }
+                newQueues.enqueue(mergeSortedQueues(leftPart, rightPart));
+            }
+            queues = newQueues;
+        }
+        return queues.peek();
+    }
+
+    public static void main(String[] args) {
+        Queue<String> students = new Queue<String>();
+        students.enqueue("Alice");
+        students.enqueue("Vanessa");
+        students.enqueue("Ethan");
+        System.out.println("before sort:" + students);
+        System.out.println("after sort:" + mergeSort(students));
     }
 }
