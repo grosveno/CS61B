@@ -70,6 +70,9 @@ public class QuickSort {
         Queue<Item> greater = new Queue<>();
         Item pivot = getRandomItem(items);
         partition(items, pivot, less, equal, greater);
+        if (less.isEmpty() && greater.isEmpty()) {
+            return items;
+        }
         less = quickSort(less);
         equal = quickSort(equal);
         greater = quickSort(greater);
@@ -81,11 +84,8 @@ public class QuickSort {
     public static void main(String[] args) {
         Queue<String> students = new Queue<>();
         students.enqueue("Alice");
-        students.enqueue("Vanessa");
-        students.enqueue("Ethan");
-        students.enqueue("David");
-        students.enqueue("Jay");
-        students.enqueue("Harry");
+        students.enqueue("Alice");
+
         System.out.println("original queue: " + students);
         Queue<String> students2 = QuickSort.quickSort(students);
         System.out.println("sorted queue: " + students2);
