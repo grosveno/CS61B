@@ -85,11 +85,16 @@ public class MergeSort {
     }
 
     public static void main(String[] args) {
-        Queue<String> students = new Queue<String>();
+        Queue<String> students = new Queue<>();
         students.enqueue("Alice");
         students.enqueue("Vanessa");
         students.enqueue("Ethan");
-        System.out.println("before sort:" + students);
-        System.out.println("after sort:" + mergeSort(students));
+        students.enqueue("David");
+        students.enqueue("Jay");
+        students.enqueue("Harry");
+        System.out.println("original queue: " + students);
+        Queue<String> students2 = MergeSort.mergeSort(students);
+        System.out.println("sorted queue: " + students2);
+        System.out.println(students.size() == students2.size());
     }
 }
