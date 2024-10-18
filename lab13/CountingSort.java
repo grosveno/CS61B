@@ -73,35 +73,35 @@ public class CountingSort {
         }
 
         // generate counts array
-        int[] counts = new int[index(max, min) + 1];
+        int[] counts = new int[getIndex(max, min) + 1];
         for (int i : arr) {
-            int index = index(i, min);
+            int index = getIndex(i, min);
             counts[index]++;
         }
 
 
         int[] sorted = new int[arr.length];
-        int k = 0;
+        int sortedIndex = 0;
         // when counts[i] != 0, put num in
         for (int i = 0; i < counts.length; i += 1) {
-            for (int j = 0; j < counts[i]; j += 1, k += 1) {
-                int num = primary(i, min);
-                sorted[k] = num;
+            int num = getValueFromIndex(i, min);
+            for (int j = 0; j < counts[i]; j += 1, sortedIndex += 1) {
+                sorted[sortedIndex] = num;
             }
         }
         return sorted;
     }
 
-    /** primary converts to index */
-    private static int index(int x, int min) {
+    /** getValueFromIndex converts to getIndex */
+    private static int getIndex(int x, int min) {
         if (min >= 0) {
             return x;
         }
         return x - min;
     }
 
-    /** index converts to primary */
-    private static int primary(int index, int min) {
+    /** getIndex converts to getValueFromIndex */
+    private static int getValueFromIndex(int index, int min) {
         if (min >= 0) {
             return index;
         }
